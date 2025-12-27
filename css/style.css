@@ -714,23 +714,77 @@ textarea.form-control {
     flex-wrap: wrap;
 }
 
+/* Scanner Styles */
+#scannerVideo {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 8px;
+    background: #000;
+    aspect-ratio: 4/3;
+}
+
+#scanResult {
+    margin-top: 1rem;
+    min-height: 60px;
+    padding: 1rem;
+}
+
+.scanner-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 250px;
+    border: 3px solid var(--success-color);
+    border-radius: 8px;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+}
+
+/* Product Code Display */
+.product-code-badge {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+/* QR Code Container */
+.qr-code-display {
+    text-align: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.qr-code-display canvas {
+    background: white;
+    padding: 0.5rem;
+    border-radius: 8px;
+}
+
 /* Print Styles */
 @media print {
     body {
         background: white;
     }
-    
+
     .navbar,
     .btn,
     .no-print {
         display: none !important;
     }
-    
+
     .invoice {
         box-shadow: none;
         padding: 0;
     }
-    
+
     .main-content {
         padding: 0;
     }
