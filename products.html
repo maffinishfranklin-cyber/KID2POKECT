@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - KID2POCKET</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>KID2POCKET</h1>
+                <p>Kids Clothing (Ages 1-15)</p>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="products.html" class="active">Products</a></li>
+                <li><a href="cart.html">Cart <span class="cart-badge" id="cartBadge">0</span></a></li>
+                <li><a href="billing.html">Billing</a></li>
+                <li><a href="history.html">History</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Product Management</h2>
+                    <button class="btn btn-primary" onclick="openProductModal()">Add New Product</button>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters" style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                    <select id="filterCategory" class="form-control" style="flex: 1; min-width: 150px;" onchange="filterProducts()">
+                        <option value="">All Categories</option>
+                        <option value="Frock">Frock</option>
+                        <option value="Top">Top</option>
+                        <option value="Pant-Boys">Pant (Boys)</option>
+                        <option value="Pant-Girls">Pant (Girls)</option>
+                        <option value="Cap">Cap</option>
+                        <option value="Glasses">Glasses</option>
+                        <option value="Jacket">Jacket</option>
+                        <option value="Watch">Watch</option>
+                    </select>
+                    <select id="filterAge" class="form-control" style="flex: 1; min-width: 150px;" onchange="filterProducts()">
+                        <option value="">All Ages</option>
+                        <option value="1-3">1-3 years</option>
+                        <option value="4-6">4-6 years</option>
+                        <option value="7-10">7-10 years</option>
+                        <option value="11-15">11-15 years</option>
+                    </select>
+                    <input type="text" id="searchProducts" class="form-control" style="flex: 2; min-width: 200px;" placeholder="Search products..." onkeyup="filterProducts()">
+                </div>
+
+                <!-- Products Grid -->
+                <div class="products-grid" id="productsGrid">
+                    <!-- Products will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
+        <div class="modal-content" style="background: white; padding: 2rem; border-radius: 10px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto;">
+            <div class="card-header">
+                <h2 id="modalTitle">Add New Product</h2>
+                <button onclick="closeProductModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </div>
+            <form id="productForm" onsubmit="saveProduct(event)">
+                <input type="hidden" id="productId">
+                
+                <div class="form-group">
+                    <label for="productName">Product Name *</label>
+                    <input type="text" id="productName" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productCategory">Category *</label>
+                    <select id="productCategory" class="form-control" required>
+                        <option value="">Select Category</option>
+                        <option value="Frock">Frock</option>
+                        <option value="Top">Top</option>
+                        <option value="Pant-Boys">Pant (Boys)</option>
+                        <option value="Pant-Girls">Pant (Girls)</option>
+                        <option value="Cap">Cap</option>
+                        <option value="Glasses">Glasses</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="productAge">Age Range *</label>
+                    <select id="productAge" class="form-control" required>
+                        <option value="">Select Age Range</option>
+                        <option value="1-3">1-3 years</option>
+                        <option value="4-6">4-6 years</option>
+                        <option value="7-10">7-10 years</option>
+                        <option value="11-15">11-15 years</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="productPrice">Price (₹) *</label>
+                    <input type="number" id="productPrice" class="form-control" step="0.01" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productStock">Stock Quantity *</label>
+                    <input type="number" id="productStock" class="form-control" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productImage">Image URL *</label>
+                    <input type="url" id="productImage" class="form-control" required placeholder="https://example.com/image.jpg">
+                    <small style="color: #666;">You can use image URLs from Unsplash, Pexels, or other open sources</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="productDescription">Description</label>
+                    <textarea id="productDescription" class="form-control" rows="3"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/products.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('navMenu');
+            if (hamburger) {
+                hamburger.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    hamburger.classList.toggle('active');
+                });
+            }
+            updateCartBadge();
+            loadProducts();
+        });
+    </script>
+</body>
+</html>
+

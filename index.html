@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KID2POCKET - Kids Clothing Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>KID2POCKET</h1>
+                <p>Kids Clothing (Ages 1-15)</p>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="active">Dashboard</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="cart.html">Cart <span class="cart-badge" id="cartBadge">0</span></a></li>
+                <li><a href="billing.html">Billing</a></li>
+                <li><a href="history.html">History</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <section class="dashboard">
+                <h2>Welcome to KID2POCKET</h2>
+                <p class="subtitle">Your one-stop shop for kids' clothing</p>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <h3 id="totalProducts">0</h3>
+                        <p>Total Products</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="cartItems">0</h3>
+                        <p>Items in Cart</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="totalPurchases">0</h3>
+                        <p>Total Purchases</p>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <a href="products.html" class="action-btn">Manage Products</a>
+                    <a href="cart.html" class="action-btn">View Cart</a>
+                    <a href="billing.html" class="action-btn">Create Bill</a>
+                    <a href="history.html" class="action-btn">View History</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        // Load dashboard stats
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update cart badge
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartBadge = document.getElementById('cartBadge');
+            const cartItems = document.getElementById('cartItems');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartBadge.textContent = totalItems;
+            cartItems.textContent = totalItems;
+
+            // Update products count
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            document.getElementById('totalProducts').textContent = products.length;
+
+            // Update purchases count
+            const purchases = JSON.parse(localStorage.getItem('purchases')) || [];
+            document.getElementById('totalPurchases').textContent = purchases.length;
+
+            // Mobile menu toggle
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('navMenu');
+            if (hamburger) {
+                hamburger.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    hamburger.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+

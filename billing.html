@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing - KID2POCKET</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>KID2POCKET</h1>
+                <p>Kids Clothing (Ages 1-15)</p>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="cart.html">Cart <span class="cart-badge" id="cartBadge">0</span></a></li>
+                <li><a href="billing.html" class="active">Billing</a></li>
+                <li><a href="history.html">History</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Billing Form -->
+            <div class="card" id="billingFormCard">
+                <div class="card-header">
+                    <h2 class="card-title">Billing Information</h2>
+                </div>
+
+                <div id="emptyCartMessage" style="text-align: center; padding: 3rem; display: none;">
+                    <p style="font-size: 1.2rem; color: #666; margin-bottom: 1rem;">Your cart is empty!</p>
+                    <a href="products.html" class="btn btn-primary">Add Products to Cart</a>
+                </div>
+
+                <div id="billingContent" style="display: none;">
+                    <!-- Customer Information -->
+                    <h3 style="margin-bottom: 1rem; color: var(--dark-color);">Customer Details</h3>
+                    <form id="customerForm" class="billing-form">
+                        <div class="form-group">
+                            <label for="customerName">Customer Name *</label>
+                            <input type="text" id="customerName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerPhone">Phone Number *</label>
+                            <input type="tel" id="customerPhone" class="form-control" required>
+                        </div>
+                    </form>
+
+                    <!-- Order Summary -->
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--dark-color);">Order Summary</h3>
+                    <div id="orderSummary">
+                        <!-- Order items will be loaded here -->
+                    </div>
+
+                    <!-- Payment Method -->
+                    <h3 style="margin: 2rem 0 1rem 0; color: var(--dark-color);">Payment Method</h3>
+                    <div class="payment-method">
+                        <div class="payment-option" onclick="selectPaymentMethod('online')">
+                            <input type="radio" name="paymentMethod" id="paymentOnline" value="online" onchange="selectPaymentMethod('online')">
+                            <label for="paymentOnline" style="cursor: pointer; display: block; margin-top: 0.5rem;">
+                                <strong>Online Payment</strong>
+                                <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Pay via QR Code</p>
+                            </label>
+                        </div>
+                        <div class="payment-option" onclick="selectPaymentMethod('offline')">
+                            <input type="radio" name="paymentMethod" id="paymentOffline" value="offline" onchange="selectPaymentMethod('offline')">
+                            <label for="paymentOffline" style="cursor: pointer; display: block; margin-top: 0.5rem;">
+                                <strong>Offline Payment</strong>
+                                <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Cash / Hand Payment</p>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- QR Code Container (hidden by default) -->
+                    <div id="qrCodeContainer" class="qr-code-container" style="display: none;">
+                        <h3>Scan QR Code to Pay</h3>
+                        <div id="qrcode"></div>
+                        <p style="margin-top: 1rem; color: #666; font-weight: 600;">UPI ID: maffinishfranklin@okicici</p>
+                        <p style="margin-top: 0.5rem; color: #666;">Scan to pay with any UPI app</p>
+                        <button class="btn btn-success" onclick="confirmPayment()" style="margin-top: 1rem;">Payment Completed</button>
+                    </div>
+
+                    <!-- Billing Actions -->
+                    <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: flex-end;">
+                        <a href="cart.html" class="btn btn-secondary">Back to Cart</a>
+                        <button class="btn btn-primary" onclick="processBilling()" id="processBillingBtn">Generate Bill</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Invoice (hidden by default) -->
+            <div id="invoiceContainer" style="display: none;">
+                <div class="invoice" id="invoice">
+                    <!-- Invoice will be generated here -->
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="downloadPDF()">Download / Save as PDF</button>
+                    <button class="btn btn-secondary" onclick="window.print()">Print</button>
+                    <button class="btn btn-secondary" onclick="backToBilling()">New Bill</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/billing.js"></script>
+    <script src="js/payment.js"></script>
+    <script src="js/messaging.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('navMenu');
+            if (hamburger) {
+                hamburger.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    hamburger.classList.toggle('active');
+                });
+            }
+            updateCartBadge();
+            loadBillingPage();
+        });
+    </script>
+</body>
+</html>
+

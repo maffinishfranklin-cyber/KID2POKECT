@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - KID2POCKET</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1>KID2POCKET</h1>
+                <p>Kids Clothing (Ages 1-15)</p>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Dashboard</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="cart.html" class="active">Cart <span class="cart-badge" id="cartBadge">0</span></a></li>
+                <li><a href="billing.html">Billing</a></li>
+                <li><a href="history.html">History</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Shopping Cart</h2>
+                    <a href="products.html" class="btn btn-secondary">Continue Shopping</a>
+                </div>
+
+                <div id="cartItems">
+                    <!-- Cart items will be loaded here -->
+                </div>
+
+                <div class="cart-summary" id="cartSummary" style="display: none;">
+                    <div class="summary-row total" style="font-size: 1.5rem; border-top: 2px solid var(--border-color); padding-top: 1rem;">
+                        <span><strong>Total Amount:</strong></span>
+                        <span id="total" style="color: var(--success-color);"><strong>₹0.00</strong></span>
+                    </div>
+                    <div id="subtotal" style="display: none;"></div>
+                    <div id="tax" style="display: none;"></div>
+                    <div style="margin-top: 1.5rem;">
+                        <a href="billing.html" class="btn btn-primary" style="width: 100%; text-align: center; display: block;">Proceed to Billing</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('navMenu');
+            if (hamburger) {
+                hamburger.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    hamburger.classList.toggle('active');
+                });
+            }
+            updateCartBadge();
+            renderCart();
+        });
+    </script>
+</body>
+</html>
+
